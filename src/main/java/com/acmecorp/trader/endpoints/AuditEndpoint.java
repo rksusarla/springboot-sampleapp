@@ -23,7 +23,7 @@ public class AuditEndpoint {
     AuditTrailDAO auditTrailDAO;
 
     @GetMapping(value = "/{id}")
-    public List<AuditRecord> getTestObject(@PathVariable int id) {
+    public List<AuditRecord> getAuditRecord(@PathVariable int id) {
         throw new UnsupportedOperationException("Retrieval of audit records by ID is not yet supported");
     }
 

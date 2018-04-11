@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by volen on 2017-07-28.
@@ -32,17 +33,17 @@ public class DbAuditTrailDAO implements AuditTrailDAO {
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveAuditRecord(AuditRecord record) {
         logger.info("Saving record {} to DB", record);
-        jdbcTemplate.update("insert into TEST_OBJECTS_AUDIT(TEST_OBJECT_ID, OPERATION, AUDIT_TIMESTAMP) "+
-                            "values (?,?,?)", record.getObjectId(), record.getOperation().toString(), record.getTimestamp());
+        jdbcTemplate.update("insert into AUDIT(RECORD_ID, OPERATION, AUDIT_TIMESTAMP) "+
+                            "values (?,?,?)", record.getRecordId(), record.getOperation().toString(), record.getTimestamp());
     }
 
     @Transactional
     public List<AuditRecord> getAllAuditRecords() {
         logger.info("Loading all records from DB");
-        return jdbcTemplate.query("select * from TEST_OBJECTS_AUDIT order by AUDIT_TIMESTAMP", new RowMapper<AuditRecord>() {
+        return jdbcTemplate.query("select * from AUDIT order by AUDIT_TIMESTAMP", new RowMapper<AuditRecord>() {
             @Override
             public AuditRecord mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new AuditRecord(rs.getInt("TEST_OBJECT_ID"),
+                return new AuditRecord(rs.getObject("RECORD_ID", UUID.class),
                                        Operation.valueOf(rs.getString("OPERATION")),
                                        rs.getLong("AUDIT_TIMESTAMP"));
             }

@@ -1,25 +1,25 @@
 package com.acmecorp.trader.domain;
 
-import java.sql.Timestamp;
+import java.util.UUID;
 
 /**
  * Created by volen on 2017-07-30.
  */
 public class AuditRecord {
     private final long       timestamp;
-    private final int        objectId;
+    private final UUID recordId;
     private final Operation  operation;
 
-    public AuditRecord(int objectId, Operation operation) {
+    public AuditRecord(UUID recordId, Operation operation) {
         this.operation = operation;
         this.timestamp = System.currentTimeMillis();
-        this.objectId = objectId;
+        this.recordId = recordId;
     }
 
-    public AuditRecord(int objectId, Operation operation, long timestamp) {
+    public AuditRecord(UUID recordId, Operation operation, long timestamp) {
         this.operation = operation;
         this.timestamp = timestamp;
-        this.objectId = objectId;
+        this.recordId = recordId;
     }
 
     public Operation getOperation() {
@@ -30,15 +30,15 @@ public class AuditRecord {
         return timestamp;
     }
 
-    public int getObjectId() {
-        return objectId;
+    public UUID getRecordId() {
+        return recordId;
     }
 
     @Override
     public String toString() {
         return "AuditRecord{" +
                 "timestamp=" + timestamp +
-                ", objectId=" + objectId +
+                ", recordId=" + recordId +
                 ", operation=" + operation +
                 '}';
     }
