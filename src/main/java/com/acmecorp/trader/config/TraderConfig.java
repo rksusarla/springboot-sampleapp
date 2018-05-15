@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.util.IdGenerator;
+import org.springframework.util.JdkIdGenerator;
 import org.springframework.util.SimpleIdGenerator;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class TraderConfig {
 
     @Bean
     public IdGenerator idGenerator() {
-      return new SimpleIdGenerator();
+      return new JdkIdGenerator();
     }
 
 }

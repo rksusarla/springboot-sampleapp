@@ -37,7 +37,7 @@ public class MessageDAOImpl implements MessageDAO {
     @Transactional
     public Message findMessageById(UUID id) {
         logger.info("Loading all messages from DB");
-        List<Message> messages = jdbcTemplate.query("select * from MESSAGE where MESSAGE_ID = "+id, msgMapper);
+        List<Message> messages = jdbcTemplate.query("select * from MESSAGE where MESSAGE_ID = '"+id+"'", msgMapper);
         if (messages.isEmpty())   throw new MessageNotFoundException();
         return messages.get(0);
     }
