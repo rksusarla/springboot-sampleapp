@@ -52,18 +52,20 @@ public class AuditTrailDAOTest {
     @Test
     public void auditTrailCreatedWhenObjectSaved() throws Exception {
         Message msg = new Message();
+
         msg.setTimestamp(System.currentTimeMillis());
-        msg.setToUser("vlad");
-        msg.setFromUser("dima");
-        msg.setId(UUID.randomUUID());
+        msg.setToUser("john");
+        msg.setFromUser("jane");
         msg.setText("test text");
         messageService.storeMessage(msg);
+
+        UUID id = msg.getId();
 
         List<AuditRecord> auditRecords = auditTrailDAO.getAllAuditRecords();
 
         assertTrue(auditRecords.size() == 1);
         assertTrue(auditRecords.get(0).getTimestamp() <= System.currentTimeMillis());
-        assertEquals((new SimpleIdGenerator()).generateId(), auditRecords.get(0).getRecordId());
+        assertEquals(id, auditRecords.get(0).getRecordId());
     }
 
 }

@@ -193,14 +193,14 @@
 							"raw": "{\n    \"text\": \"hellow\",\n    \"fromUser\": \"jane\",\n    \"toUser\": \"john\"\n\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/audit/",
+							"raw": "http://localhost:8080/messages/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"audit",
+								"messages",
 								""
 							]
 						},
