@@ -44,7 +44,8 @@ public class Message {
     }
 
     public void setId(UUID id) {
-        this.id = id;
+        if (this.id == null)
+            this.id = id;
     }
 
     public long getTimestamp() {
@@ -69,7 +70,18 @@ public class Message {
         return Objects.hash(id);
     }
 
-    //=====
+    @Override
+    public String toString() {
+        return "Message{" +
+                "text='" + text + '\'' +
+                ", fromUser='" + fromUser + '\'' +
+                ", toUser='" + toUser + '\'' +
+                ", id=" + id +
+                ", timestamp=" + timestamp +
+                '}';
+    }
+
+//=====
 //    private static int COUNTER = 1;
 //    private synchronized int NEXT_ID() {
 //        return COUNTER++;

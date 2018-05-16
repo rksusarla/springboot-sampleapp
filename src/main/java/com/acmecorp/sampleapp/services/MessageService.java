@@ -9,7 +9,8 @@ import java.util.UUID;
  * Created by volen on 2017-07-28.
  */
 public interface MessageService {
-    Message storeMessage(Message message);
+    default Message storeMessage(Message message) { return storeMessage(message, 0); }
+    Message storeMessage(Message message, int delay);
     Message retrieveMessage(UUID uuid);
     void deleteMessage(UUID id);
     Message updateObject(Message message);

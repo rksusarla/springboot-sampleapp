@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.util.IdGenerator;
 import org.springframework.util.JdkIdGenerator;
 
@@ -13,7 +14,7 @@ import org.springframework.util.JdkIdGenerator;
  */
 @Configuration
 //@ImportResource("classpath:envConfig.xml")
-public class TraderConfig {
+public class SampleappConfig {
     @Autowired
     private ApplicationContext ctx;
 
@@ -27,5 +28,6 @@ public class TraderConfig {
     public IdGenerator idGenerator() {
       return new JdkIdGenerator();
     }
+
 
 }

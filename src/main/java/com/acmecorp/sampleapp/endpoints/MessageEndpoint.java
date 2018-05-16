@@ -2,6 +2,8 @@ package com.acmecorp.sampleapp.endpoints;
 
 import com.acmecorp.sampleapp.domain.Message;
 import com.acmecorp.sampleapp.services.MessageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/messages")
 public class MessageEndpoint {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private MessageService messageService;
 
@@ -24,8 +28,9 @@ public class MessageEndpoint {
     }
 
     @PostMapping
-    public Message recordMessage(@RequestBody Message msg) {
-        return messageService.storeMessage(msg);
+    public Message recordMessage(@RequestBody Message msg, @RequestParam(name = "delay", defaultValue = "0") int delay) {
+        logger.info("Message received: "+msg);
+        return messageService.storeMessage(msg, delay);
     }
 
     @DeleteMapping(value = "/{id}")

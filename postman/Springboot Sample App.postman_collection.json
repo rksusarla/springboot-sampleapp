@@ -1,14 +1,13 @@
 {
 	"info": {
 		"name": "Springboot Sample App",
-		"_postman_id": "0680e889-6e19-b381-1b01-efccde69ded6",
+		"_postman_id": "347325da-4b87-dd85-98ca-0ee5e4035c82",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "1. Create Messages",
-			"description": "",
 			"item": [
 				{
 					"name": "create first message",
@@ -74,8 +73,7 @@
 								"messages",
 								""
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -142,8 +140,7 @@
 								"messages",
 								""
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -151,7 +148,6 @@
 		},
 		{
 			"name": "2. Search Messages",
-			"description": "",
 			"item": [
 				{
 					"name": "get all messages",
@@ -203,8 +199,7 @@
 								"messages",
 								""
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -258,8 +253,7 @@
 								"messages",
 								"{{id1}}"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -313,8 +307,7 @@
 								"messages",
 								"{{id2}}"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -322,7 +315,6 @@
 		},
 		{
 			"name": "3. Get Audit Records",
-			"description": "",
 			"item": [
 				{
 					"name": "get all audit records",
@@ -374,8 +366,327 @@
 								"audit",
 								""
 							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Sync vs Async delivery",
+			"description": "",
+			"item": [
+				{
+					"name": "create message synchronously",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "006ce6b8-f646-4e07-ac88-222fab413824",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"syncMsg\", jsonData.id);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
 						},
-						"description": ""
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"with delay\",\n    \"fromUser\": \"mike\",\n    \"toUser\": \"dave\"\n\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/messages/?delay=30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"messages",
+								""
+							],
+							"query": [
+								{
+									"key": "delay",
+									"value": "30",
+									"equals": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get synchronous message",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"hellow\",\n    \"fromUser\": \"jane\",\n    \"toUser\": \"john\"\n\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/messages/{{syncMsg}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"messages",
+								"{{syncMsg}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create message asynchronously",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "aa3d1ccd-fa4a-487b-a88b-7c0f16932cd6",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"asyncMsg\", jsonData.message.id);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"asynchronous2\",\n    \"fromUser\": \"mike\",\n    \"toUser\": \"dave\"\n\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/messages/jms/?delay=30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"messages",
+								"jms",
+								""
+							],
+							"query": [
+								{
+									"key": "delay",
+									"value": "30",
+									"equals": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get asynchronous message",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"hellow\",\n    \"fromUser\": \"jane\",\n    \"toUser\": \"john\"\n\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/messages/{{asyncMsg}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"messages",
+								"{{asyncMsg}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get delivered messages",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"hellow\",\n    \"fromUser\": \"jane\",\n    \"toUser\": \"john\"\n\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/messages/jms/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"messages",
+								"jms",
+								""
+							]
+						}
 					},
 					"response": []
 				}
