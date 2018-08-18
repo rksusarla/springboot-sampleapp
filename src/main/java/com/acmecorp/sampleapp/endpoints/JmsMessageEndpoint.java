@@ -6,8 +6,12 @@ import com.acmecorp.sampleapp.services.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.util.IdGenerator;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +52,14 @@ public class JmsMessageEndpoint {
         logger.info("Message delivered: "+msg);
         return msg;
     }
+
+    //---------------- JMS code --------//
+    @JmsListener(destination = "msgService")
+    @SendTo("msgDelivered")
+    public Message storeMessageAsync(@Payload Message msg,
+                                     @Header(name = "delay", defaultValue = "0") int delay) {
+        return messageService.storeMessage(msg, delay);
+    }
+
 
 }

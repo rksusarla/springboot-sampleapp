@@ -83,12 +83,4 @@ public class MessageServiceImpl implements MessageService {
         return messages;
     }
 
-    //---------------- JMS code --------//
-    @JmsListener(destination = "msgService")
-    @SendTo("msgDelivered")
-    public Message storeMessageAsync(@Payload Message msg,
-                                     @Header(name = "delay", defaultValue = "0") int delay) {
-        return storeMessage(msg, delay);
-    }
-
 }
